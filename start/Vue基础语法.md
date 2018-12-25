@@ -193,4 +193,21 @@
 ```
 ---
 ## __6.组件拆分，全局组件和局部组件__
->__全局组件__: 在js脚本内，使用<strong><font color='#aa3939'>Vue.component(<font color=#004080>组件名</font>, {<font color=#004080>组件类型</font>：<font color=#004080>组件内容</font>})</font></strong>
+>__全局组件__: 在js脚本内，使用<strong><font color='#aa3939'>Vue.component(<font color=#004080>组件名</font>, {<font color=#004080>组件类型</font>：<font color=#004080>组件内容</font>})</font></strong> 来声明全局组件，并在页面中可直接以<font color=#aa3939><组件名></组件名></font>的方式直接使用全局组件
+```html
+    <div id="root">
+      <ul>
+          <todo-item></todo-item>
+      </ul>
+    </div>
+    <script>
+        // 全局组件
+        Vue.component('todo-item',{
+            template: '<li>item</li>'
+        });
+        new Vue({
+            el: "#root"
+        });
+    </script>
+```
+>__局部组件__:在js脚本中，使用变量<font color=#></font>var a = {组件类型：组件内容}的形式来定义组件对象
