@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue入门</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <!-- 
+        1.挂载点，模板和实例之间的关系
+            挂载点：Vue实例中 el 属性所对应的节点
+            模板：挂载点内部的内容就是模板，也可以写在Vue实例的template 属性里面
+    
+        2.数据,事件和内容
+            {{变量名}}  插值表达式
+            v-text : 原样输出 变量里面的内容， 和插值表达式一样
+            v-html : 会尝试将变量内容解析为html元素, 与使用template相似
+
+            事件：通过 v-on 来给DOM绑定事件，事件触发的方法写在Vue实例的methods方法里面
+                想要页面变化，可以不用直接操作DOM，改变实例内的数据，Vue会监听到数据的改变，
+                自动更新模板
+                * v-on 可以简写为 @ 符号
+    -->
+    <div id="root">
+        <!-- 引入数据的三种方式 -->
+        <h1>{{number}}</h1>
+        <h1 v-text="number"></h1>
+        <h1 v-html="number"></h1>
+        <!-- v-text 和 v-html的差别 -->
+        <div v-text="content"></div>
+        <div v-html="content"></div>
+        <!-- v-on 和 @ 都可以绑定事件 -->
+        <div v-on:click="handleClick">{{content2}}</div>
+        <div @click="handleClick2">{{content2}}</div>
+    </div>
+
+    <script>
+        new Vue({
+            el: "#root",
+            // template: '<h1>Hello {{msg}}</h1>',
+            data: {
+                msg: "Vue",
+                number: 123,
+                content:"<h1>hello</h1>",
+                content2:"hello"
+            },
+            methods: {
+                handleClick: function(){
+                    this.content2 = "world";
+                },
+                handleClick2: function(){
+                    this.content2 = "hello";
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

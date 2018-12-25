@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>v-if, v-show 和 v-for 标签</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+       <div v-if="show">hello v-if</div>
+       <div v-show="show2">hello v-show</div>
+       <button @click="handleVif">v-if</button>
+       <button @click="handleVshow">v-if</button>
+       <ul>
+           <li v-for="item of list">{{item}}</li>
+           <li v-for="item of list" key="item">{{item}}</li>
+           <li v-for="(item, index) of list" key="index">{{item}}</li>
+       </ul>
+    </div>
+
+    <script>
+        new Vue({
+            el: "#root",
+            data: {
+               show: true,
+               show2:true,
+               list:[1,2,3]
+            },
+            methods: {
+                handleVif: function(){
+                    this.show = !this.show;
+                },
+                handleVshow:function(){
+                    this.show2 = !this.show2;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

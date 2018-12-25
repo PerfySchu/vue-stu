@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>属性绑定和双向数据绑定</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- 直接对应title，无法获取data中的DOMtitle值 -->
+        <div title="DOMtitle">hello world</div>
+        <!-- 使用 v-bind 标签可以将属性和data值绑定，DOMtitle 会对应到 data.DOMtitle  -->
+        <div v-bind:title="DOMtitle">hello vue</div>
+        <!-- 使用 v-bind 标签可以简写为冒号 : 代替  -->
+        <div :title="DOMtitle">hello vue</div>
+        
+        <input v-model="content" />
+        <div>{{content}}</div>
+    </div>
+
+    <script>
+        new Vue({
+            el: "#root",
+            data: {
+                DOMtitle: "this is hello vue",
+                content: "this is content"
+            }
+        });
+    </script>
+</body>
+</html>
