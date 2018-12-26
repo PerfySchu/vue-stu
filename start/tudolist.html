@@ -12,26 +12,21 @@
           <button @click="handleSubmit">提交</button>
       </div>
       <ul>
-          <todo-item></todo-item>
+          <todo-item 
+            v-for="(item, index) of list" 
+            :key="index"
+            :content="item"></todo-item>
       </ul>
     </div>
     <script>
         // 全局组件
         Vue.component('todo-item',{
-            template: '<li>item</li>'
+            props: ['content'],
+            template: '<li>{{content}}</li>'
         });
-
-        // 局部组件
-        var todoItem = {
-            template:'<li>item</li>'
-        }
 
         new Vue({
             el: "#root",
-            components:{
-                // 局部模板需要再这里注册才能使用
-                'todo-item': todoItem
-            },
             data: {
                inputValue: '',
                list: []

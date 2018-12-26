@@ -192,11 +192,12 @@
     </script>
 ```
 ---
-## __6.组件拆分，全局组件和局部组件__
+## __6.组件拆分，全局组件和局部组件及组件传值__
 >__全局组件__: 在js脚本内，使用<strong><font color='#aa3939'>Vue.component(<font color=#004080>组件名</font>, {<font color=#004080>组件类型</font>：<font color=#004080>组件内容</font>})</font></strong> 来声明全局组件，并在页面中可直接以<font color=#aa3939><组件名></组件名></font>的方式直接使用全局组件
 ```html
     <div id="root">
       <ul>
+          <!-- 直接将名称作为标签使用 -->
           <todo-item></todo-item>
       </ul>
     </div>
@@ -210,4 +211,41 @@
         });
     </script>
 ```
->__局部组件__:在js脚本中，使用变量<font color=#></font>var a = {组件类型：组件内容}的形式来定义组件对象
+>__局部组件__:在js脚本中，使用变量<font color=#aa3939>__var a = {组件类型：组件内容}__</font>的形式来定义组件对象，定义好的组件需要在Vue对象中注册方可使用
+```html
+    <div id="root">
+      <ul>
+        <!-- 直接将名称作为标签使用 -->
+        <todo-item></todo-item>
+      </ul>
+    </div>
+    <script>
+        // 局部组件
+        var todoItem = {
+            template:'<li>item</li>'
+        }
+        new Vue({
+            el: "#root",
+            components:{
+                // 局部模板需要再这里注册才能使用
+                'todo-item': todoItem
+            }
+        });
+    </script>
+```
+>__组件传值__: 组件在定义时，可使用 <font color=#aa3939>__props：['参数名']__</font> 的形式指定参数，在使用组件时，可向其中传值，组件内部可直接以 <font color=#aa3939>__{{参数名}}__</font> 的形式使用参数
+```html
+    <todo-item 
+        v-for="(item, index) of list" 
+        :key="index"
+        :content="item">
+    </todo-item>
+    
+    <script>
+        // 全局组件,定义 content 入参
+        Vue.component('todo-item',{
+            props: ['content'],
+            template: '<li>{{content}}</li>'
+        });
+    </script>
+```
