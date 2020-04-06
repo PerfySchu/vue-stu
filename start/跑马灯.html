@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>跑马灯实例</title>
+    <meta charset="utf-8">
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <h2>跑马灯实例</h2>
+    <div id="root">
+        <h3>{{text}}</h3>
+        <button @click="start()">开始</button>
+        <button @click="stop()">结束</button>
+    </div>
+   
+    <script>
+        new Vue({
+            el: "#root",
+            data:{
+                text: "文本跑马灯测试~",
+                intervalId: null
+            },
+            methods: {
+                start(){
+                    if(this.intervalId != null){
+                        return;
+                    }
+                    this.intervalId = setInterval(()=>{
+                        const header = this.text.substring(0,1);
+                        const body = this.text.substring(1);
+                        this.text = body + header;
+                    }, 300);
+                   
+                },
+
+                stop(){
+                    clearInterval(this.intervalId);
+                    this.intervalId = null;
+                }
+            },
+        });
+    </script>
+</body>
+</html>

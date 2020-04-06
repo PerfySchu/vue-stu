@@ -27,7 +27,7 @@
 ---
 ## __2.数据和事件__
 >__对一个DOM赋值可以使用一下三种方式__
-* <strong>{{变量名}} </strong>插值表达式
+* <strong>{{变量名}} </strong>插值表达式，网络不佳时，可能导致闪烁问题。使用v-cloak设置display none 消除闪烁
 * <strong>v-text</strong> : 原样输出 变量里面的内容， 和插值表达式一样
 * <strong>v-html</strong> : 会尝试将变量内容解析为html元素, 与使用template相似
 ``` html
@@ -47,7 +47,7 @@
         })
     </script>
 ```
->__v-on 和 @ 都可以绑定事件，对应时间处理写在 method 中__
+>__v-on 和 @ 都可以绑定事件，对应事件处理写在 method 中__
 ```html
     <div id="root">
         <div v-on:click="handleClick">{{content2}}</div>
@@ -74,7 +74,7 @@
 ## __3.属性绑定和双向数据绑定__
 ><strong>v-bind</strong> 可以实现属性和数据间的单向绑定，即数据可以单向传递给属性,可以简写为冒号加属性<strong>  :title</strong> 
 
-><strong>v-model</strong> 可以实现value属性和数据间的双向绑定，任一方的值改变都可以传给另一方
+><strong>v-model</strong> 可以实现value属性和数据间的双向绑定，任一方的值改变都可以传给另一方。__只能用在表单元素中__
 ```html
     <div id="root">
         <!-- 直接对应title，无法获取data中的DOMtitle值 -->

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>简易计算器</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <h1>简易计算器</h1>
+    <div id="root">
+        <input type="text" id="num1" v-model="num1">
+        <select name="operator" id="operator" v-model="operator">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <input type="text" id="num2" v-model="num2">
+        <input type="button" value="=" @click="cal()">
+        <input type="text" id="result" v-model="result">
+    </div>
+    <script>
+        new Vue({
+            el: "#root",
+            data:{
+                num1: 0,
+                num2: 0,
+                operator: "+",
+                result: 0
+            },
+            methods: {
+                cal(){
+                    // switch(this.operator){
+                    //     case "+" :
+                    //         this.result = parseFloat(this.num1) + parseFloat(this.num2);
+                    //         break;
+                    //     case "-" :
+                    //         this.result = parseFloat(this.num1) - parseFloat(this.num2);
+                    //         break;
+                    //     case "*" :
+                    //         this.result = parseFloat(this.num1) * parseFloat(this.num2);
+                    //         break;
+                    //     case "/" :
+                    //         this.result = parseFloat(this.num1) / parseFloat(this.num2);
+                    //         break;
+                    // }
+                    eval(`this.result= parseFloat(this.num1) ${this.operator} parseFloat(this.num2)`);
+                }
+            },
+        });
+    </script>
+  
+</body>
+</html>
