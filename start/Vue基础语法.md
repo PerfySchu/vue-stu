@@ -48,10 +48,37 @@
     </script>
 ```
 >__v-on 和 @ 都可以绑定事件，对应事件处理写在 method 中__
+
+>__事件修饰符__
+* 阻止事件冒泡 __.stop__ 
+* 阻止默认事件 __.prevent__
+* 事件捕获执行 __.capture__
+* 只要点击到元素本身时才会触发 __.self__
+* 只触发一次 __.once__
 ```html
     <div id="root">
+        <!-- v-on 和 @ 均可以绑定事件 -->
         <div v-on:click="handleClick">{{content2}}</div>
         <div @click="handleClick2">{{content2}}</div>
+        <div @click="outer">
+            <!-- .stop 可以阻止事件向上级冒泡，如下阻止了点击事件向上冒泡 -->
+            <input type="button" @click.stop="inner">
+        </div>
+        <!-- .prevent 可以阻止元素的默认事件，如下 阻止了 <a> 标签的跳转事件 -->
+        <a href="http://www.baidu.com" @click.prevent="linkClick">百度</a>\
+
+        <!-- .capture 将事件改为捕获执行的方式（与冒泡执行相反），如下会先执行 outer, 再执行 inner -->
+        <div @click.capture="outer">
+            <input type="button" @click="inner">
+        </div>
+
+         <!-- .self 标记的事件只有当元素本身被点击时才会触发，如下 如果点击按钮，是不会触发div的outer函数的 -->
+        <div @click.self="outer">
+            <input type="button" @click="inner">
+        </div>
+
+        <!-- .once 修饰的事件只能触发一次，如下按钮只有第一次点击时会触发 inner -->
+        <input type="button" @click.once="inner">
     </div>
     <script>
         new Vue({
@@ -65,6 +92,15 @@
                 },
                 handleClick2: function(){
                     this.content2 = "hello";
+                },
+                outer(){
+                    console.log("外部元素点击");
+                },
+                inner(){
+                    console.log("内部元素点击");
+                },
+                linkClick(){
+                    console.log("a标签被点击");
                 }
             }
         });
@@ -174,19 +210,26 @@
 ><strong> v-for </strong> :对于需要遍历的数据内容，可以使用<strong> v-for="<font style="color:#1c26f0">item</font>  of <font style="color:#aa3939">list</font>"</strong>的形式来遍历的数据，其中<strong>item</strong>为每个数据项，<strong>list</strong>是<strong>data</strong>中定义的数据集合,DOM中可以使用{{item}}来获取数据项的值
 ```html
     <div id="root">
-       <ul>
-           <li v-for="item of list">{{item}}</li>
+        <ul>
+            <li v-for="item of list">{{item}}</li>
             <!-- 添加key元素可以提高遍历效率，key必须唯一，item唯一时也可以当做key -->
-           <li v-for="item of list" key="item">{{item}}</li>
-           <!-- 如果暂时没有合适的值来作为key，可以item后附加index作为key，index是自动生成的唯一序列 -->
-           <li v-for="(item, index) of list" key="index">{{item}}</li>
-       </ul>
+            <li v-for="item of list" key="item">{{item}}</li>
+            <!-- 如果暂时没有合适的值来作为key，可以item后附加index作为key，index是自动生成的唯一序列 -->
+            <li v-for="(item, index) of list" key="index">{{item}}</li>
+
+            <!-- v-for也可用作对象属性的遍历，可以获取value, key,以及下标 i  三者顺序不能错-->
+            <li v-for="(val, key, i) of obj">{{key}}------{{val}}-----{{i}}</li>
+        </ul>  
     </div>
     <script>
         new Vue({
             el: "#root",
             data: {
-               list:[1,2,3]
+               list:[1,2,3],
+               obj:{
+                   id:1,
+                   name:'perfy'
+               }
             }
         });
     </script>
@@ -248,4 +291,76 @@
             template: '<li>{{content}}</li>'
         });
     </script>
+```
+
+## __7.vue中使用样式__
+> 使用 __v-bind__ 或者 __:__ 修饰class,为元素绑定样式
+```html
+<html>
+    <style>
+        .red{
+            color:red;
+        }
+        .small{
+            font-size: 10px;
+        }
+    </style>
+
+    <div id="root">
+        <!-- 绑定class 传入数组 -->
+        <h1 :class="['red','small']">vue绑定样式</h1>
+        <!-- 三目运算修改样式 -->
+        <h1 :class="['red', isSmall ? 'small':'']">vue三元表达式修改元素样式</h1>
+        <input type="button" value="点击改变样式" @click="change">
+        <!-- 使用对象的方式简化三元表达式 -->
+        <h1 :class="['red', {small:isSmall}]">vue三元表达式修改元素样式</h1>
+
+        <!-- 使用对象控制样式 -->
+        <h1 :class="classObj">vue三元表达式修改元素样式</h1>
+    </div>
+  
+    <script>
+        new Vue({
+            el: "#root",
+            data: {
+               isSmall: false,
+               classObj:{
+                   small:true,
+                   red:true
+               }
+            },
+            methods{
+                change(){
+                    this.isSmall = !this.isSmall;
+                }
+            }
+        });
+    </script>
+<html>
+```
+
+>绑定style属性，使用行内样式
+```html
+<html>
+    <div id="root">
+        <h1 style="color:red, font-size:14px">正常的行内样式</h1>
+
+        <h1 :style="[styleObj,styleObj2]">vue绑定style使用行内样式</h1>
+    </div>
+  
+    <script>
+        new Vue({
+            el: "#root",
+            data: {
+               styleObj:{
+                   color:'red',
+                   'font-size':'14px'
+               },
+               styleObj2:{
+                   'font-style':'italic'
+               }
+            }
+        });
+    </script>
+<html>
 ```

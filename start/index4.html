@@ -16,6 +16,9 @@
            <li v-for="item of list">{{item}}</li>
            <li v-for="item of list" key="item">{{item}}</li>
            <li v-for="(item, index) of list" key="index">{{item}}</li>
+
+           <!-- v-for也可用作对象属性的遍历，可以获取 value, key, 以及下标 i -->
+           <li v-for="(value, key, i) of obj">{{key}}------{{value}}-----{{i}}</li>
        </ul>
     </div>
 
@@ -25,7 +28,11 @@
             data: {
                show: true,
                show2:true,
-               list:[1,2,3]
+               list:[1,2,3],
+               obj:{
+                   id:1,
+                   name:'perfy'
+               }
             },
             methods: {
                 handleVif: function(){
