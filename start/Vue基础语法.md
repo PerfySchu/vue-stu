@@ -180,6 +180,8 @@
 ><strong>[v-if:变量名]</strong> :根据变量名对应的布尔值来确定当前元素是否显示，值为true时显示当前元素，为false时不显示，<font style="color:#d93737"><strong>其底层是通过创建和销毁DOM节点来实现的</strong></font>
 
 ><strong>[v-show:变量名]</strong> :与 <strong>v-if</strong> 使用方法相同，<font style="color:#d93737"><strong>其底层是通过添加和移除元素的样式"display:none"来实现元素的展示和隐藏</strong></font>，对于需要频繁改变现实状态的DOM，使用<strong> v-show </strong>效率高一点
+
+>__v-if__ 有更高的切换消耗，__v-show__ 有更高的初始渲染消耗
 ```html
     <div id="root">
         <!-- 直接移除DOM节点俩实现隐藏 -->
