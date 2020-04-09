@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>品牌列表示例</title>
+    <script src="./vue.js"></script>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../node_modules/moment/min/moment.min.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <div>
+            <label for="inputId">Id:</label>
+            <input v-model="id" type="text" name="ID" id="inputId">
+            <label for="inputName">Name:</label>
+            <input v-model="name" type="text" name="Name" id="inputName">
+            <input @click="add()" class="btn btn-primary" type="button" value="添加">
+            <label for="search">名称检索</label>
+            <input type="text" v-model="keywords" @change="searchByName()">
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>CreateTime</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item of searchByName()" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.createTime | formatDate | addFilter('aaa')}}</td>
+                    <td><a @click.prevent="del(item.id)" href="www.baidu.com">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+
+        Vue.filter('formatDate',function(data){
+            return moment(data).format("YYYY-MM-DD HH:mm:ss");
+        });
+        Vue.filter('addFilter',function(data, str){
+            return data + str;
+        });
+
+        new Vue({
+            el: "#root",
+            data: {
+                id: "",
+                name: "",
+                tData: [{
+                        id: 1,
+                        name: "PerfySchu",
+                        createTime: new Date()
+                    },
+                    {
+                        id: 2,
+                        name: "Sunshine",
+                        createTime: new Date()
+                    },
+                    {
+                        id: 3,
+                        name: "Tom",
+                        createTime: new Date()
+                    }
+                ],
+                keywords: ""
+            },
+            methods: {
+                add() {
+                    this.tData.push({
+                        id: this.id,
+                        name: this.name,
+                        createTime: new Date()
+                    });
+                    this.id = "";
+                    this.name = "";
+                },
+                del(id) {
+                    // for (let i = 0; i < this.tData.length; i++) {
+                    //     if(this.tData[i].id == id){
+                    //         this.tData.splice(i, 1);
+                    //     }
+                    // }
+
+                    const index = this.tData.findIndex(function (item, i, arr) {
+                        return item.id = id;
+                    });
+                    this.tData.splice(index, 1);
+                },
+                searchByName() {
+                    // let result = [];
+                    // for (let i = 0; i < this.tData.length; i++) {
+                    //     if (this.tData[i].name.includes(this.keywords)) {
+                    //         result.push(this.tData[i]);
+                    //     }
+                    // }
+                    // return result;
+
+                    return this.tData.filter(item => item.name.includes(this.keywords));
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

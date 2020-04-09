@@ -366,3 +366,36 @@
     </script>
 <html>
 ```
+
+## __8.过滤器__
+>全局过滤器
+* __插值表达式__ 和 __v-bind__ 中可以使用
+* 全局过滤器使用 __Vue.filter(name, function(){})__ 来定义，且处理函数中必须有返回值
+* 使用管道符 __|__ 来调用，__{{数据 | 过滤器(参数)}}__ ，默认的第一个入参固定是当前的数据
+* 一个表达式中可以调用多个过滤器，用管道符连接 __{{data | filter1 | filter2}}__
+```html
+<html>
+    <div id="root">
+        <!-- 使用管道符调用过滤器，可以连续调用多个，每个过滤的结果作为下一个的参数 -->
+        <h1>{{var1 | filter1 | filter2("fil2")}}</h1>
+    </div>
+    <script>
+        // 过滤器默认的参数就是进行过滤操作的变量
+        Vue.filter('filter1',function(data){
+            return data + "filter1";
+        });
+        // 过滤器如果需要传入参数，则从第二开始
+        Vue.filter('filter2',function(data, str){
+            return data + str;
+        });
+        
+        new Vue({
+            el: "#root",
+            data:{
+                var1: "AAA"
+            }
+        });
+    </script>
+</html>
+```
+>私有过滤器

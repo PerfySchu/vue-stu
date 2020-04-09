@@ -1,0 +1,24 @@
+{
+  "name": "vue-stu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PerfySchu/vue-stu.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PerfySchu/vue-stu/issues"
+  },
+  "homepage": "https://github.com/PerfySchu/vue-stu#readme",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "moment": "^2.24.0"
+  }
+}
