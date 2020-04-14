@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义指令</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <span v-color="'blue'">全局自定义指令,指定蓝色</span>
+        <input type="text">
+        <span v-color>全局自定义指令,未指定颜色，使用默认</span>
+        <!-- 使用 v-name 绑定名称为 name 的自定义指令， v-focus是指令钩子，用来绑定 focus指令 -->
+        <input type="text" v-focus>
+    </div>
+
+    <script>
+        // 定义全局指定
+        Vue.directive("focus",{
+            // 页面元素渲染到指定位置时，会执行bind函数
+            bind: function(el){
+                // 给元素添加样式
+                el.style.color = "red";
+            },
+            // 页面元素渲染完成后，会执行inserted函数
+            inserted: function(el){
+                // 页面渲染完成后让元素获取焦点
+                el.focus();
+            }
+        });
+
+        Vue.directive("color",{
+            bind: function(el, binding){
+                el.style.color = binding.value || "red";
+            },
+            inserted: function(){
+
+            }
+        })
+
+        new Vue({
+            el: "#root"
+        });
+    </script>
+</body>
+</html>

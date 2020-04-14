@@ -399,3 +399,76 @@
 </html>
 ```
 >私有过滤器
+* 定义在 new Vue({}) 内，使用 filters来声明
+* 私有过滤器只能在对应的控制区内使用，控制区外不能使用
+* 当全局过滤器和私有过滤器重名时，优先使用私有过滤器
+
+```html
+<html>
+    <div id="root">
+        <h2>{{msg | myFilter}}</h2>
+    </div>
+
+    <script>
+        new Vue({
+            el: "#root",
+            data: {
+                msg: "哈哈哈"
+            },
+            filters: {
+                // 定义私有过滤器
+                myFilter(data){
+                    return data + "~~~";
+                }
+            }
+        });
+    </script>
+</html>
+```
+## __9.自定义指令__
+>全局自定义指令
+* 使用Vue.directive(name, {}) 来定义全局指令，其中name为指定名称，对象中包含 bind 和 inserted 两个方法
+* 类似于spring的切面操作，对某个方法执行前和执行后动态添加操作。指定的作用就是可以在页面元素渲染时和渲染后添加一系列的操作
+* bind方法中一般写元素样式之类的操作，inserted中一般写元素行为相关的操作，因为一般要等页面加载完了才能进行相关的行为
+
+```html
+<html>
+    <div id="root">
+        <span v-color="'blue'">全局自定义指令</span>
+        <input type="text">
+        <!-- 使用 v-name 绑定名称为 name 的自定义指令， v-focus是指令钩子，用来绑定 focus指令 -->
+        <input type="text" v-focus>
+    </div>
+    <script>
+        // 定义全局指定
+        Vue.directive("focus",{
+            // 页面元素渲染到指定位置时，会执行bind函数
+            bind: function(el){
+                // 给元素添加样式
+                el.style.color = "red";
+            },
+            // 页面元素渲染完成后，会执行inserted函数
+            inserted: function(el){
+                // 页面渲染完成后让元素获取焦点
+                el.focus();
+            }
+        });
+
+        Vue.directive("color",{
+            bind: function(el, binding){
+                el.style.color = binding.value || "red";
+            },
+            inserted: function(){
+
+            }
+        })
+
+        new Vue({
+            el: "#root"
+        });
+    </script>
+<html>
+```
+
+>私有自定义指令
+* 
