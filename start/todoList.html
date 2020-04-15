@@ -7,16 +7,16 @@
 </head>
 <body>
     <div id="root">
-      <div>
-          <input v-model="inputValue" />
-          <button @click="handleSubmit">提交</button>
-      </div>
-      <ul>
-          <todo-item 
+        <div>
+            <input v-model="inputValue" />
+            <button @click="handleSubmit">提交</button>
+        </div>
+        <ul>
+            <todo-item 
             v-for="(item, index) of list" 
             :key="index"
             :content="item"></todo-item>
-      </ul>
+        </ul>
     </div>
     <script>
         // 全局组件
@@ -28,8 +28,8 @@
         new Vue({
             el: "#root",
             data: {
-               inputValue: '',
-               list: []
+                inputValue: '',
+                list: []
             },
             methods: {
                 handleSubmit: function(){
