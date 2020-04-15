@@ -15,10 +15,10 @@
             <label for="inputId">Id:</label>
             <input v-model="id" type="text" name="ID" id="inputId">
             <label for="inputName">Name:</label>
-            <input v-model="name" type="text" name="Name" id="inputName">
+            <input v-model="name" type="text" name="Name" id="inputName" @keyup.enter="add">
             <input @click="add()" class="btn btn-primary" type="button" value="添加">
-            <label for="search">名称检索</label>
-            <input type="text" v-model="keywords" @change="searchByName()">
+            <label for="search" v-color="'red'">名称检索</label>
+            <input type="text" v-model="keywords" @change="searchByName()" v-focus>
         </div>
         <table class="table table-bordered table-hover table-striped">
             <thead>
@@ -43,11 +43,26 @@
 
     <script>
 
+        // 自定义全局过滤器
         Vue.filter('formatDate',function(data){
             return moment(data).format("YYYY-MM-DD HH:mm:ss");
         });
         Vue.filter('addFilter',function(data, str){
             return data + str;
+        });
+
+        // 自定义全局指令
+        Vue.directive("focus",{
+            // 页面元素渲染到指定位置时，会执行bind函数
+            bind: function(el){
+                // 给元素添加样式
+                el.style.color = "blue";
+            },
+            // 页面元素渲染完成后，会执行inserted函数
+            inserted: function(el){
+                // 页面渲染完成后让元素获取焦点
+                el.focus();
+            }
         });
 
         new Vue({
@@ -105,6 +120,11 @@
                     // return result;
 
                     return this.tData.filter(item => item.name.includes(this.keywords));
+                }
+            },
+            directives: {
+                color: function(el, binding){
+                    el.style.color = binding.value;
                 }
             }
         });

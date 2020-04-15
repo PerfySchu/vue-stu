@@ -471,4 +471,66 @@
 ```
 
 >私有自定义指令
-* 
+* 在Vue对象内使用 directives来定义私有指令
+* 类似于私有过滤器，私有制令只能在当前控制域内使用
+* 当只需要在bind和update函数内进行操作时，指令函数可以简写为一个函数（不在区分bind 和 update）
+
+```html
+<html>
+    <div id="root">
+        <span v-bold="200">自定义私有指令，加粗</span>
+        <span v-italic>自定义指令，斜体</span>
+    </div>
+    <script>
+        new Vue({
+            el: "#root",
+            data:{},
+            method:{},
+            filters:{},
+            directives: {
+                bold: {
+                    bind: function(el, binding){
+                        el.style.fontWeight = binding.value;
+                    },
+                     inserted(el){}
+                },
+                //指令简写,等价于将代码写在 bind 和 update 函数中
+                italic: function(el,binding){
+                    el.style.fontStyle = "italic";
+                }
+               
+            }
+        });
+    </script>
+</html>
+```
+
+## __10.按键修饰符__
+>在按键事件后添加 __.按键名__ 来修饰事件，绑定时间到对应的按钮上，按键名有如下：
+* __.enter__
+* __.tab__
+* __.esc__
+* __.space__
+* __.up__
+* __.down__
+* __.left__
+* __.right__
+* 另外也可使用
+
+```html
+<html>
+    <div id="root">
+        <input type="button" @keyup.enter="pushEnter" value="键盘按钮">
+    </div>
+    <script>
+        new Vue({
+            el: "#root",
+            methods: {
+                pushEnter(){
+                    alert("键盘按下了Enter");
+                }
+            }
+        });
+    </script>
+</html>
+```
